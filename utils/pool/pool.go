@@ -8,6 +8,10 @@ type Pool struct {
 const maxpoolsize = 500 * 1024
 
 func (pool *Pool) Get(size int) []byte {
+	if size > maxpoolsize {
+		return make([]byte, size)
+	}
+
 	if maxpoolsize-pool.pos < size {
 		pool.pos = 0
 		pool.buf = make([]byte, maxpoolsize)
